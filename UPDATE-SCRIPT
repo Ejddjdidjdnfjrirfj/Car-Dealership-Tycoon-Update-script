@@ -46,19 +46,3 @@ Library:ToggleUI()
 wait(3)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/JuninhoOGado/ScriptsSite/main/Script245"))()
 end
-
-function Scripts()
-  OrionLib:MakeNotification({
-	Name = "Key System [Bot√]",
-	Content = "Checking Key...",
-	Image = "rbxassetid://4483345998",
-	Time = 5
-})
-wait(5)
-OrionLib:MakeNotification({
-	Name = "Key System [Bot√]",
-	Content = "Key is InCorrect, Please Try aging",
-	Image = "rbxassetid://4483345998",
-	Time = 5
-})
-end
