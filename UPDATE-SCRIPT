@@ -13,8 +13,6 @@ local Section = Tab:NewSection("Key System")
 Section:NewTextBox("Paste Key", "TextboxInfo", function(Value)
   if _G.KeyInput == _G.Key then
     Script()
-  else
-    Scripts()
   end
 end)
 Section:NewButton("Get Key", "ButtonInfo", function()
