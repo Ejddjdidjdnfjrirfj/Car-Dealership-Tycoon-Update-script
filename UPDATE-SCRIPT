@@ -1,151 +1,66 @@
-local obf_stringchar = string.char;
-local obf_stringbyte = string.byte;
-local obf_stringsub = string.sub;
-local obf_bitlib = bit32 or bit;
-local obf_XOR = obf_bitlib.bxor;
-local obf_tableconcat = table.concat;
-local obf_tableinsert = table.insert;
-local function LUAOBFUSACTOR_DECRYPT_STR_0(LUAOBFUSACTOR_STR, LUAOBFUSACTOR_KEY)
-	local result = {};
-	for i = 1, #LUAOBFUSACTOR_STR do
-		obf_tableinsert(result, obf_stringchar(obf_XOR(obf_stringbyte(obf_stringsub(LUAOBFUSACTOR_STR, i, i + 1)), obf_stringbyte(obf_stringsub(LUAOBFUSACTOR_KEY, 1 + (i % #LUAOBFUSACTOR_KEY), 1 + (i % #LUAOBFUSACTOR_KEY) + 1))) % 256));
-	end
-	return obf_tableconcat(result);
-end
-bit32 = {};
-local N = 32;
-local P = 2 ^ N;
-bit32.bnot = function(x)
-	x = x % P;
-	return (P - 1) - x;
-end;
-bit32.band = function(x, y)
-	if (y == 255) then
-		return x % 256;
-	end
-	if (y == 65535) then
-		return x % 65536;
-	end
-	if (y == 4294967295) then
-		return x % 4294967296;
-	end
-	x, y = x % P, y % P;
-	local r = 0;
-	local p = 1;
-	for i = 1, N do
-		local a, b = x % 2, y % 2;
-		x, y = math.floor(x / 2), math.floor(y / 2);
-		if ((a + b) == 2) then
-			r = r + p;
-		end
-		p = 2 * p;
-	end
-	return r;
-end;
-bit32.bor = function(x, y)
-	if (y == 255) then
-		return (x - (x % 256)) + 255;
-	end
-	if (y == 65535) then
-		return (x - (x % 65536)) + 65535;
-	end
-	if (y == 4294967295) then
-		return 4294967295;
-	end
-	x, y = x % P, y % P;
-	local r = 0;
-	local p = 1;
-	for i = 1, N do
-		local a, b = x % 2, y % 2;
-		x, y = math.floor(x / 2), math.floor(y / 2);
-		if ((a + b) >= 1) then
-			r = r + p;
-		end
-		p = 2 * p;
-	end
-	return r;
-end;
-bit32.bxor = function(x, y)
-	x, y = x % P, y % P;
-	local r = 0;
-	local p = 1;
-	for i = 1, N do
-		local a, b = x % 2, y % 2;
-		x, y = math.floor(x / 2), math.floor(y / 2);
-		if ((a + b) == 1) then
-			r = r + p;
-		end
-		p = 2 * p;
-	end
-	return r;
-end;
-bit32.lshift = function(x, s_amount)
-	if (math.abs(s_amount) >= N) then
-		return 0;
-	end
-	x = x % P;
-	if (s_amount < 0) then
-		return math.floor(x * (2 ^ s_amount));
-	else
-		return (x * (2 ^ s_amount)) % P;
-	end
-end;
-bit32.rshift = function(x, s_amount)
-	if (math.abs(s_amount) >= N) then
-		return 0;
-	end
-	x = x % P;
-	if (s_amount > 0) then
-		return math.floor(x * (2 ^ -s_amount));
-	else
-		return (x * (2 ^ -s_amount)) % P;
-	end
-end;
-bit32.arshift = function(x, s_amount)
-	if (math.abs(s_amount) >= N) then
-		return 0;
-	end
-	x = x % P;
-	if (s_amount > 0) then
-		local add = 0;
-		if (x >= (P / 2)) then
-			add = P - (2 ^ (N - s_amount));
-		end
-		return math.floor(x * (2 ^ -s_amount)) + add;
-	else
-		return (x * (2 ^ -s_amount)) % P;
-	end
-end;
-local Library = loadstring(game:HttpGet("https://pastebin.com/raw/vff1bQ9F"))();
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))();
-local Player = game.Players.LocalPlayer;
-local Window = Library.CreateLib(LUAOBFUSACTOR_DECRYPT_STR_0("\229\198\200\49", "\126\177\163\187\69\134\219\167"), LUAOBFUSACTOR_DECRYPT_STR_0("\7\204\56\206\200\43\200\39\192", "\156\67\173\74\165"));
-OrionLib:MakeNotification({[LUAOBFUSACTOR_DECRYPT_STR_0("\26\182\68\19", "\38\84\215\41\118\220\70")]="Key System [Bot√]",[LUAOBFUSACTOR_DECRYPT_STR_0("\115\25\44\6\251\94\2", "\158\48\118\66\114")]=(LUAOBFUSACTOR_DECRYPT_STR_0("\131\33\28\58\124\233\187", "\155\203\68\112\86\19\197") .. Player.Name .. "."),[LUAOBFUSACTOR_DECRYPT_STR_0("\111\208\55\251\69", "\152\38\189\86\156\32\24\133")]="rbxassetid://4483345998",[LUAOBFUSACTOR_DECRYPT_STR_0("\200\94\170\67", "\38\156\55\199")]=5});
-local Tab = Window:NewTab(LUAOBFUSACTOR_DECRYPT_STR_0("\131\120\101\104\32\109\233\87\173\112", "\35\200\29\28\72\115\20\154"));
-local Section = Tab:NewSection(LUAOBFUSACTOR_DECRYPT_STR_0("\50\186\200\159\190\53\39\13\186\220", "\84\121\223\177\191\237\76"));
-Section:NewTextBox(LUAOBFUSACTOR_DECRYPT_STR_0("\139\87\218\180\63\16\27\196\162", "\161\219\54\169\192\90\48\80"), LUAOBFUSACTOR_DECRYPT_STR_0("\125\71\24\49\75\77\24\12\71\68\15", "\69\41\34\96"), function(Value)
-	if (_G.KeyInput == _G.Key) then
-		Script();
-	else
-		Scripts();
-	end
-end);
-Section:NewButton(LUAOBFUSACTOR_DECRYPT_STR_0("\155\198\195\74\41\46\165", "\75\220\163\183\106\98"), LUAOBFUSACTOR_DECRYPT_STR_0("\32\175\159\35\214\12\147\133\49\214", "\185\98\218\235\87"), function()
-	OrionLib:MakeNotification({[LUAOBFUSACTOR_DECRYPT_STR_0("\229\61\42\227", "\202\171\92\71\134\190")]="Key System [Bot√]",[LUAOBFUSACTOR_DECRYPT_STR_0("\10\206\34\156\44\207\56", "\232\73\161\76")]=LUAOBFUSACTOR_DECRYPT_STR_0("\152\214\82\68\23\190\221\2\118\27\162\151", "\126\219\185\34\61"),[LUAOBFUSACTOR_DECRYPT_STR_0("\37\195\95\117\123", "\135\108\174\62\18\30\23\147")]="rbxassetid://4483345998",[LUAOBFUSACTOR_DECRYPT_STR_0("\130\224\39\206", "\167\214\137\74\171\120\206\83")]=5});
-end);
-_G.Key = LUAOBFUSACTOR_DECRYPT_STR_0("\160\213\11\98\174\255\141\168\98\12\171\243\210\163\102\92\169\247\221\241\51\15\170\255", "\199\235\144\82\61\152");
-_G.KeyInput = LUAOBFUSACTOR_DECRYPT_STR_0("\20\2\171\34\9\17", "\75\103\118\217");
+local Library = loadstring(game:HttpGet("https://pastebin.com/raw/vff1bQ9F"))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Player = game.Players.LocalPlayer
+local Window = Library.CreateLib("Test", "DarkTheme")
+OrionLib:MakeNotification({
+	Name = "Key System [Bot√]",
+	Content = "Hello, "..Player.Name..".",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+local Tab = Window:NewTab("Key System")
+local Section = Tab:NewSection("Key System")
+Section:NewTextBox("Paste Key", "TextboxInfo", function(Value)
+  if _G.KeyInput == _G.Key then
+    Script()
+  else
+    Scripts()
+  end
+end)
+Section:NewButton("Get Key", "ButtonInfo", function()
+    OrionLib:MakeNotification({
+	Name = "Key System [Bot√]",
+	Content = "Copyied Key.",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+end)
+
+_G.Key = "KEY_68f80134934a106aa228"
+_G.KeyInput = 'string'
+
 function Script()
-	OrionLib:MakeNotification({[LUAOBFUSACTOR_DECRYPT_STR_0("\233\85\125\17", "\126\167\52\16\116\217")]="Key System [Bot√]",[LUAOBFUSACTOR_DECRYPT_STR_0("\235\33\46\148\177\23\232", "\156\168\78\64\224\212\121")]=LUAOBFUSACTOR_DECRYPT_STR_0("\36\230\160\205\12\231\171\201\71\197\160\215\73\160\235", "\174\103\142\197"),[LUAOBFUSACTOR_DECRYPT_STR_0("\127\37\94\63\32", "\152\54\72\63\88\69\62")]="rbxassetid://4483345998",[LUAOBFUSACTOR_DECRYPT_STR_0("\224\205\227\89", "\60\180\164\142")]=5});
-	wait(5);
-	OrionLib:MakeNotification({[LUAOBFUSACTOR_DECRYPT_STR_0("\118\95\8\44", "\114\56\62\101\73\71\141")]="Key System [Botโ]",[LUAOBFUSACTOR_DECRYPT_STR_0("\155\230\213\208\189\231\207", "\164\216\137\187")]=LUAOBFUSACTOR_DECRYPT_STR_0("\249\227\40\242\175\237\75\241\233\35\160\163\253\31\147", "\107\178\134\81\210\198\158"),[LUAOBFUSACTOR_DECRYPT_STR_0("\17\3\131\193\175", "\202\88\110\226\166")]="rbxassetid://4483345998",[LUAOBFUSACTOR_DECRYPT_STR_0("\247\6\143\242", "\170\163\111\226\151")]=5});
-	wait(3);
-	Library:ToggleUI();
-	wait(3);
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/JuninhoOGado/ScriptsSite/main/Script245"))();
+  OrionLib:MakeNotification({
+	Name = "Key System [Bot√]",
+	Content = "Checking Key...",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+wait(5)
+OrionLib:MakeNotification({
+	Name = "Key System [Bot√]",
+	Content = "Key is Correct!",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+wait(3)
+Library:ToggleUI()
+wait(3)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/JuninhoOGado/ScriptsSite/main/Script245"))()
 end
+
 function Scripts()
-	OrionLib:MakeNotification({[LUAOBFUSACTOR_DECRYPT_STR_0("\63\49\191\61", "\73\113\80\210\88\46\87")]="Key System [Botโ]",[LUAOBFUSACTOR_DECRYPT_STR_0("\162\35\195\6\226\143\56", "\135\225\76\173\114")]=LUAOBFUSACTOR_DECRYPT_STR_0("\57\229\189\179\167\180\169\29\173\147\181\181\243\233\84", "\199\122\141\216\208\204\221"),[LUAOBFUSACTOR_DECRYPT_STR_0("\132\208\17\247\125", "\150\205\189\112\144\24")]="rbxassetid://4483345998",[LUAOBFUSACTOR_DECRYPT_STR_0("\17\141\178\73", "\112\69\228\223\44\100\232\113")]=5});
-	wait(5);
-	OrionLib:MakeNotification({[LUAOBFUSACTOR_DECRYPT_STR_0("\250\30\10\214", "\230\180\127\103\179\214\28")]="Key System [Botโ]",[LUAOBFUSACTOR_DECRYPT_STR_0("\175\10\81\82\225\79\244", "\128\236\101\63\38\132\33")]=LUAOBFUSACTOR_DECRYPT_STR_0("\135\172\8\4\191\248\143\133\167\50\75\164\249\202\175\189\93\4\134\231\202\173\186\20\4\130\249\214\236\168\22\77\184\236", "\175\204\201\113\36\214\139"),[LUAOBFUSACTOR_DECRYPT_STR_0("\110\193\52\219\1", "\100\39\172\85\188")]="rbxassetid://4483345998",[LUAOBFUSACTOR_DECRYPT_STR_0("\153\113\180\133", "\83\205\24\217\224")]=5});
+  OrionLib:MakeNotification({
+	Name = "Key System [Bot√]",
+	Content = "Checking Key...",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+wait(5)
+OrionLib:MakeNotification({
+	Name = "Key System [Bot√]",
+	Content = "Key is InCorrect, Please Try aging",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
 end
